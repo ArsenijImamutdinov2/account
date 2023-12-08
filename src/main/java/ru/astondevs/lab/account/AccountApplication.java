@@ -11,7 +11,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import ru.astondevs.lab.account.model.Beneficiary;
+import ru.astondevs.lab.account.repository.AccountRepository;
 import ru.astondevs.lab.account.repository.BeneficiaryRepository;
+import ru.astondevs.lab.account.repository.LogRepository;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -30,7 +32,8 @@ public class AccountApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(BeneficiaryRepository repository) {
+	public CommandLineRunner demo(BeneficiaryRepository beneficiaryRepository, AccountRepository accountRepository,
+								  LogRepository logRepository) {
 
 		return (args) -> {
 			// save a few customers
@@ -42,13 +45,29 @@ public class AccountApplication {
 //					.blockLast(Duration.ofSeconds(10));
 
 			// fetch all customers
-			log.info("Customers found with findAll():");
+			log.info("Beneficiaries found with findAll():");
 			log.info("-------------------------------");
-			repository.findAll().doOnNext(customer -> {
-				log.info(customer.toString());
+			beneficiaryRepository.findAll().doOnNext(beneficiary -> {
+				log.info(beneficiary.toString());
 			}).blockLast(Duration.ofSeconds(10));
-//
-//			log.info("");
+
+			log.info("");
+
+			log.info("Accounts found with findAll():");
+			log.info("-------------------------------");
+			accountRepository.findAll().doOnNext(account -> {
+				log.info(account.toString());
+			}).blockLast(Duration.ofSeconds(10));
+
+			log.info("");
+
+			log.info("Log found with findAll():");
+			log.info("-------------------------------");
+			logRepository.findAll().doOnNext(logg -> {
+				AccountApplication.log.info(logg.toString());
+			}).blockLast(Duration.ofSeconds(10));
+
+			log.info("");
 //
 //			// fetch an individual customer by ID
 //			repository.findById("Jack").doOnNext(customer -> {

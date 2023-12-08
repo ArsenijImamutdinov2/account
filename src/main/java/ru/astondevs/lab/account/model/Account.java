@@ -3,23 +3,25 @@ package ru.astondevs.lab.account.model;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Table("account")
 public class Account {
-    @Id
-    @Column("name")
+    @Column("NAME")
     private String name;
 
-    @Column("number")
+    @Id
+    @Column("NUMBER")
     private Integer number;
 
-    @Column("account")
-    private Integer account;
+    @Column("AMOUNT")
+    private Integer amount;
 
-    @Column("version")
+    @Column("VERSION")
     private Long version;
 }
